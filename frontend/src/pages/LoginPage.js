@@ -27,7 +27,7 @@ const LoginPage = () => {
       <div style={{ width: '100%', maxWidth: 420, padding: 40, background: '#1e293b', borderRadius: 16, border: '1px solid #334155' }}>
         <div style={{ textAlign: 'center', marginBottom: 32 }}>
           <div style={{ fontSize: 48, marginBottom: 8 }}>🛡️</div>
-          <h1 style={{ color: '#6366f1', fontSize: 24, fontWeight: 700 }}>SafeGuard AI</h1>
+          <h1 style={{ color: '#6366f1', fontSize: 24, fontWeight: 700 }}>PhishGuard Sentinel</h1>
           <p style={{ color: '#64748b', marginTop: 8 }}>Sign in to your parent account</p>
         </div>
         <form onSubmit={handleSubmit}>

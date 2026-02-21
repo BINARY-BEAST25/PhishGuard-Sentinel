@@ -2,65 +2,162 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>SafeGuard AI</title>
+  <title>PhishGuard Sentinel</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { width: 320px; min-height: 200px; background: #0f172a; color: #f1f5f9; font-family: -apple-system, sans-serif; }
-    .header { background: #1e293b; padding: 16px 20px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #334155; }
-    .header h1 { font-size: 16px; font-weight: 700; color: #6366f1; }
-    .content { padding: 20px; }
-    .status-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-    .status-label { font-size: 14px; color: #94a3b8; }
+    :root {
+      --bg: #08131f;
+      --panel: #0f2235;
+      --line: #214463;
+      --text: #e8f3ff;
+      --muted: #a5bdd3;
+      --accent: #2eaadc;
+      --success: #1fc886;
+      --danger: #ff6670;
+    }
+    body {
+      width: 370px;
+      min-height: 280px;
+      background: radial-gradient(circle at top right, #12395a 0%, var(--bg) 60%);
+      color: var(--text);
+      font-family: Segoe UI, Arial, sans-serif;
+    }
+    .header {
+      background: linear-gradient(135deg, #12395a, #0e2a42);
+      border-bottom: 1px solid var(--line);
+      padding: 16px 18px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand h1 { font-size: 16px; letter-spacing: 0.2px; }
+    .tagline {
+      margin-top: 8px;
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+    .content { padding: 16px 18px 18px 18px; }
+    .features {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(15, 34, 53, 0.7);
+      padding: 10px;
+      margin-bottom: 14px;
+    }
+    .feature {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--muted);
+      margin: 6px 0;
+    }
+    .status-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .status-label { font-size: 13px; color: var(--muted); }
     .toggle { position: relative; display: inline-block; width: 44px; height: 24px; }
     .toggle input { opacity: 0; width: 0; height: 0; }
-    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: #334155; border-radius: 24px; transition: 0.3s; }
-    .slider:before { position: absolute; content: ''; height: 18px; width: 18px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: 0.3s; }
-    input:checked + .slider { background: #6366f1; }
+    .slider {
+      position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+      background: #355676; border-radius: 24px; transition: 0.25s;
+    }
+    .slider:before {
+      position: absolute; content: ''; height: 18px; width: 18px; left: 3px; bottom: 3px;
+      background: #fff; border-radius: 50%; transition: 0.25s;
+    }
+    input:checked + .slider { background: var(--accent); }
     input:checked + .slider:before { transform: translateX(20px); }
-    .field { margin-bottom: 12px; }
-    .field label { display: block; font-size: 12px; color: #64748b; margin-bottom: 4px; }
-    .field input { width: 100%; background: #1e293b; border: 1px solid #334155; color: #f1f5f9; border-radius: 6px; padding: 8px 10px; font-size: 13px; outline: none; }
-    .field input:focus { border-color: #6366f1; }
-    .btn { width: 100%; padding: 10px; background: #6366f1; border: none; border-radius: 8px; color: white; font-weight: 600; font-size: 14px; cursor: pointer; margin-top: 4px; }
-    .btn:hover { background: #4f46e5; }
-    .msg { font-size: 12px; text-align: center; margin-top: 8px; }
-    .msg.success { color: #22c55e; }
-    .msg.error { color: #ef4444; }
-    .configured { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 12px; margin-bottom: 16px; font-size: 13px; color: #94a3b8; }
-    .configured strong { color: #6366f1; }
+    .field { margin-bottom: 10px; }
+    .field label { display: block; margin-bottom: 4px; font-size: 12px; color: var(--muted); }
+    .field input {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.2);
+      color: var(--text);
+      padding: 9px 10px;
+      font-size: 13px;
+      outline: none;
+    }
+    .field input:focus { border-color: var(--accent); }
+    .btn {
+      width: 100%;
+      border: none;
+      border-radius: 9px;
+      padding: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      margin-top: 4px;
+    }
+    .btn-primary { background: linear-gradient(90deg, #2eaadc, #228ab8); color: #04111c; }
+    .btn-secondary { background: #253f58; color: var(--muted); }
+    .msg { font-size: 12px; text-align: center; margin-top: 8px; min-height: 16px; }
+    .msg.success { color: var(--success); }
+    .msg.error { color: var(--danger); }
+    .configured {
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      padding: 10px;
+      margin-bottom: 12px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .configured strong { color: var(--accent); }
   </style>
 </head>
 <body>
   <div class="header">
-    <span style="font-size:24px">🛡️</span>
-    <h1>SafeGuard AI</h1>
+    <div class="brand">
+      <span style="font-size:22px">🛡️</span>
+      <h1>PhishGuard Sentinel</h1>
+    </div>
+    <p class="tagline">
+      Bring our defense grid to your browser. PhishGuard Sentinel scans every URL you visit,
+      detecting typosquats, homograph attacks, and insecure credential leaks before they harm you.
+    </p>
   </div>
+
   <div class="content">
     <div id="configured-view" style="display:none">
       <div class="configured">
         Device ID: <strong id="device-id-display"></strong>
       </div>
       <div class="status-row">
-        <span class="status-label">Filtering Active</span>
+        <span class="status-label">Sentinel Protection</span>
         <label class="toggle">
           <input type="checkbox" id="toggle-enabled">
           <span class="slider"></span>
         </label>
       </div>
       <div id="status-msg" class="msg"></div>
-      <button class="btn" id="btn-reset" style="background:#334155;color:#94a3b8;margin-top:12px">Reset Device</button>
+      <button class="btn btn-secondary" id="btn-reset">Reset Device</button>
     </div>
+
     <div id="setup-view">
-      <p style="font-size:13px;color:#64748b;margin-bottom:16px">Enter the Device ID from your parent dashboard to link this device.</p>
+      <div class="features">
+        <div class="feature">🛡️ Live Filtering - Block malicious scripts on the fly.</div>
+        <div class="feature">🔍 URL Analysis - Deep inspect suspicious domains.</div>
+        <div class="feature">⚠️ Alert System - Instant warnings on threat detection.</div>
+        <div class="feature">📊 Threat Logs - Keep track of scanned sites.</div>
+      </div>
       <div class="field">
         <label>Device ID</label>
-        <input type="text" id="device-id-input" placeholder="xxxxxxxx-xxxx-xxxx-xxxx..." />
+        <input type="text" id="device-id-input" placeholder="Paste device ID from dashboard">
       </div>
       <div class="field">
-        <label>Parent Password (to lock settings)</label>
-        <input type="password" id="lock-password" placeholder="Optional PIN" />
+        <label>Parent Password (optional)</label>
+        <input type="password" id="lock-password" placeholder="Set lock for disable/reset">
       </div>
-      <button class="btn" id="btn-save">Activate SafeGuard</button>
+      <button class="btn btn-primary" id="btn-save">INSTALL SENTINEL -></button>
       <div id="setup-msg" class="msg"></div>
     </div>
   </div>
@@ -68,3 +165,4 @@
   <script src="popup.js"></script>
 </body>
 </html>
+

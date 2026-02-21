@@ -1,25 +1,25 @@
 /**
- * SafeGuard AI — Background Service Worker (Manifest V3, v2.0)
+ * PhishGuard Sentinel - Background Service Worker (Manifest V3)
  *
  * Responsibilities:
  *   - Store deviceId and auth state in chrome.storage.local
  *   - Relay moderation API calls from content.js (which can't call external APIs directly)
- *   - All Gemini API calls go through OUR backend — API key never in extension
+ *   - All Gemini API calls go through our backend - API key never in extension
  *
  * Communication:
- *   content.js  →  chrome.runtime.sendMessage()  →  background.js  →  backend API
+ *   content.js  ->  chrome.runtime.sendMessage()  ->  background.js  ->  backend API
  */
 
-// ⚠️ Set this to your deployed backend URL before publishing
-const API_BASE = 'http://localhost:5000/api';;
+// Set this to your deployed backend URL before publishing.
+const API_BASE = 'http://localhost:5000/api';
 
 // ─── Startup ──────────────────────────────────────────────────────────────────
 chrome.runtime.onInstalled.addListener(() => {
-  console.log('[SafeGuard] Extension v2.0 (Gemini) installed');
+  console.log('[PhishGuard Sentinel] Extension installed');
   // Default: enabled when deviceId is set
   chrome.storage.local.get(['deviceId', 'enabled'], (cfg) => {
     if (!cfg.deviceId) {
-      console.log('[SafeGuard] Not configured — open popup to enter Device ID');
+      console.log('[PhishGuard Sentinel] Not configured - open popup to enter Device ID');
     }
   });
 });
@@ -33,7 +33,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       moderatePage(message.payload)
         .then(sendResponse)
         .catch((err) => {
-          console.error('[SafeGuard] MODERATE_PAGE error:', err.message);
+          console.error('[PhishGuard Sentinel] MODERATE_PAGE error:', err.message);
           sendResponse({ blocked: false });
         });
       return true; // Keep message channel open for async
@@ -58,7 +58,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 // ─── API Callers ──────────────────────────────────────────────────────────────
 
 /**
- * Combined page moderation — single backend call for URL + text + images.
+ * Combined page moderation - single backend call for URL + text + images.
  * Uses /api/moderate/page to minimize latency.
  */
 async function moderatePage({ url, text, imageUrls }) {
@@ -80,7 +80,7 @@ async function moderatePage({ url, text, imageUrls }) {
 }
 
 /**
- * URL-only pre-check — runs before page content loads.
+ * URL-only pre-check - runs before page content loads.
  * If the URL is blocked, we stop immediately without fetching images.
  */
 async function moderateUrl(url) {

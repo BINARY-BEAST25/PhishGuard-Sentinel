@@ -2,7 +2,7 @@
  * Moderation Routes
  *
  * These endpoints are called by the Chrome extension (content.js / background.js).
- * Authentication is via deviceId embedded in the request body — no JWT required
+ * Authentication is via deviceId embedded in the request body (no parent token required)
  * here since the extension identifies devices, not users.
  *
  * Rate limiting: stricter than default to protect Gemini API quota.

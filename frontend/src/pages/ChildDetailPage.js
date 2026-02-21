@@ -201,7 +201,7 @@ const ChildDetailPage = () => {
           <div className="card" style={{ marginBottom: 24 }}>
             <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 12 }}>🔑 Extension Setup</h3>
             <p style={{ fontSize: 14, color: '#94a3b8', marginBottom: 12 }}>
-              Enter this Device ID in the SafeGuard AI Chrome extension on your child's device:
+              Enter this Device ID in the PhishGuard Sentinel Chrome extension on your child's device:
             </p>
             <div style={{
               background: '#0f172a', borderRadius: 8, padding: '12px 16px',

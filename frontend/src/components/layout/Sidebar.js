@@ -25,7 +25,7 @@ const Sidebar = () => {
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <span style={{ fontSize: 28 }}>🛡️</span>
           <div>
-            <div style={{ fontWeight: 800, fontSize: 16, color: '#6366f1' }}>SafeGuard AI</div>
+            <div style={{ fontWeight: 800, fontSize: 16, color: '#6366f1' }}>PhishGuard Sentinel</div>
             <div style={{ fontSize: 11, color: '#64748b' }}>Parental Control</div>
           </div>
         </div>

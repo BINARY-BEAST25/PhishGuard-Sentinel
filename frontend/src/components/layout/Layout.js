@@ -22,7 +22,7 @@ const Layout = () => {
       <aside style={{ width: sidebarOpen ? 240 : 64, background: '#1e293b', borderRight: '1px solid #334155', transition: 'width 0.3s', flexShrink: 0, display: 'flex', flexDirection: 'column' }}>
         <div style={{ padding: '20px 16px', borderBottom: '1px solid #334155', display: 'flex', alignItems: 'center', gap: 12 }}>
           <span style={{ fontSize: 28 }}>🛡️</span>
-          {sidebarOpen && <span style={{ fontWeight: 700, fontSize: 16, color: '#6366f1' }}>SafeGuard AI</span>}
+          {sidebarOpen && <span style={{ fontWeight: 700, fontSize: 16, color: '#6366f1' }}>PhishGuard Sentinel</span>}
         </div>
         <nav style={{ flex: 1, padding: '16px 8px' }}>
           {navItems.map(({ path, label, exact }) => (

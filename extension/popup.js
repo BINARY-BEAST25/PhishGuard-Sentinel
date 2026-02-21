@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     await chrome.storage.local.set({ deviceId: deviceIdInput, enabled: true, lockPassword: password || null });
     msg.className = 'msg success';
-    msg.textContent = 'SafeGuard activated!';
+    msg.textContent = 'Sentinel installed and active.';
     setTimeout(() => showConfigured(deviceIdInput, true), 800);
   });
 });

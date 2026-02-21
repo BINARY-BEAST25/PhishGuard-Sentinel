@@ -1,89 +1,60 @@
-# SafeGuard AI — Deployment Guide
+# PhishGuard Sentinel Deployment
 
-## Prerequisites
-- Node.js 18+
-- MongoDB Atlas account
-- Render account (backend)
-- Vercel account (frontend)
+## Strict No-Billing Setup
+- `Hosting`: Firebase Hosting
+- `Auth`: Firebase Authentication (Email/Password)
+- `Database`: Firestore
+- `Backend runtime`: local/self-hosted Node process (not Firebase Functions/App Hosting)
+- `AI`: Gemini API key from Google AI Studio
+- `Cache`: Firestore by default, optional Redis free tier
 
-## Step 1: MongoDB Atlas
-1. Go to mongodb.com/atlas and create a free cluster
-2. Database Access → Add User (username + auto-generated password)
-3. Network Access → Add IP Address → 0.0.0.0/0 (allow all)
-4. Connect → Drivers → Copy connection string
-5. Replace <password> in the string
+## 1) Firebase Project
+1. Create a Firebase project on `Spark` plan (free).
+2. Enable Authentication -> Email/Password.
+3. Enable Firestore.
+4. Create a Web App and copy the Web API key.
+5. Create a Service Account key for backend admin access.
+6. Do not enable paid products (Cloud Functions, App Hosting, Cloud Storage, Identity Platform upgrade).
 
-## Step 2: Get API Keys
+Backend env values needed:
+- `FIREBASE_PROJECT_ID`
+- `FIREBASE_CLIENT_EMAIL`
+- `FIREBASE_PRIVATE_KEY`
+- `FIREBASE_WEB_API_KEY`
 
-### OpenAI
-- platform.openai.com → API Keys → Create new key
-- Needs billing enabled for moderation API
+## 2) Gemini
+1. Open Google AI Studio.
+2. Generate API key from free tier.
+3. Set these in backend env:
+   - `GEMINI_API_KEY`
+   - `GEMINI_TEXT_MODEL=gemini-2.5-flash-lite`
+   - `GEMINI_VISION_MODEL=gemini-2.5-flash`
 
-### Google Cloud Vision (SafeSearch)
-- console.cloud.google.com
-- Create project → Enable "Cloud Vision API"
-- APIs & Services → Credentials → Create API Key
+## 3) Optional Free Redis
+- Upstash Redis free tier or Redis Cloud free tier.
+- Add `REDIS_URL` in backend env.
+- If missing, app works with Firestore cache only.
 
-### Google Safe Browsing
-- console.cloud.google.com → Same project
-- Enable "Safe Browsing API"
-- Create API Key (can reuse same key)
-
-## Step 3: Deploy Backend to Render
-
-1. Push your code to GitHub
-2. render.com → New → Web Service
-3. Connect repository
-4. Settings:
-   - Build Command: `cd backend && npm install`
-   - Start Command: `cd backend && node server.js`
-   - Environment: Node
-5. Add environment variables (all from .env.example)
-6. Deploy → Copy your URL (e.g. https://safeguard-api.onrender.com)
-
-## Step 4: Deploy Frontend to Vercel
-
-1. Install Vercel CLI: `npm i -g vercel`
-2. In frontend/package.json, change proxy to your Render URL
-3. Run: `cd frontend && vercel --prod`
-4. Follow prompts → copy deployment URL
-
-## Step 5: Configure CORS
-
-In backend .env, set:
-```
-FRONTEND_URL=https://your-vercel-app.vercel.app
+## 4) Frontend
+Set `REACT_APP_API_URL` in frontend env:
+```env
+REACT_APP_API_URL=https://your-api-domain/api
 ```
 
-Redeploy backend.
+## 5) Extension
+Set backend API base in `extension/background.js`:
+```js
+const API_BASE = 'https://your-api-domain/api';
+```
+Then reload extension in `chrome://extensions`.
 
-## Step 6: Load Chrome Extension
+## 6) Verify
+- `GET /api/health` returns `status: ok`
+- Register/login from dashboard
+- Add child profile and copy device ID
+- Install extension and paste device ID
+- Visit test URLs and confirm logs appear in dashboard
 
-1. Update extension/background.js line 7:
-   `const API_BASE = 'https://your-render-url.onrender.com/api';`
-2. chrome://extensions → Developer mode on
-3. Load unpacked → select extension/ folder
-
-## SSL/HTTPS
-Both Render and Vercel include free SSL. Never use HTTP in production.
-
-## Redis (Optional)
-- Redis Cloud: redis.com → free 30MB tier
-- Add REDIS_URL to Render environment variables
-- Reduces API costs significantly with caching
-
-## Monitoring
-- Add Sentry for error tracking: sentry.io
-- UptimeRobot for uptime monitoring
-- MongoDB Atlas has built-in monitoring
-
-## Cost Estimate (Monthly)
-| Service | Free Tier |
-|---------|-----------|
-| Render | 750 hrs/month free |
-| Vercel | Unlimited static |
-| MongoDB Atlas | 512MB free |
-| Redis Cloud | 30MB free |
-| OpenAI Moderation | ~$0.002 per 1K tokens |
-| Google Vision | 1,000 units/month free |
-| Google Safe Browsing | Free up to 10K/day |
+## 7) Important Constraint
+- A fully serverless Firebase-only backend usually needs billing-enabled products.
+- To stay zero-billing and keep Gemini key secret, run the Node backend yourself (local VM/always-free host if available) and keep Firebase for auth/database/hosting only.

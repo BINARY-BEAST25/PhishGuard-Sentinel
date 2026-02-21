@@ -1,7 +1,7 @@
 {
-  "name": "safeguard-ai-backend",
+  "name": "phishguard-sentinel-backend",
   "version": "2.0.0",
-  "description": "SafeGuard AI - Parental Control Backend (Gemini-Powered)",
+  "description": "PhishGuard Sentinel backend (Firebase + Gemini)",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -11,16 +11,14 @@
     "@google/genai": "^1.42.0",
     "@google/generative-ai": "^0.24.1",
     "axios": "^1.13.5",
-    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-rate-limit": "^6.7.0",
     "express-validator": "^7.0.1",
+    "firebase-admin": "^13.6.0",
     "helmet": "^7.0.0",
-    "jsonwebtoken": "^9.0.0",
-    "mongoose": "^7.8.9",
-    "nodemailer": "^8.0.1",
+    "redis": "^5.8.2",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

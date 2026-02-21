@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "SafeGuard AI",
+  "name": "PhishGuard Sentinel",
   "version": "1.0.0",
-  "description": "AI-powered parental content filtering that protects children across the web.",
+  "description": "PhishGuard Sentinel scans every URL for typosquats, homograph attacks, and credential leak risks.",
   "permissions": [
     "storage",
     "tabs",

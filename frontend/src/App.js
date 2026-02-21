@@ -12,7 +12,7 @@ import Layout from './components/layout/Layout';
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
-  if (loading) return <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#0f172a', color: '#6366f1', fontSize: 18 }}>Loading SafeGuard AI...</div>;
+  if (loading) return <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#0f172a', color: '#6366f1', fontSize: 18 }}>Loading PhishGuard Sentinel...</div>;
   return user ? children : <Navigate to="/login" />;
 };
 
