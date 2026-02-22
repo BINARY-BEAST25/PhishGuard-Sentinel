@@ -28,6 +28,29 @@ PhishGuard Sentinel is a Chrome extension + web dashboard for phishing and unsaf
 - Unsafe text and images via Gemini moderation
 - Activity and block events with logs in dashboard
 
+## Extension Capabilities
+- Device-linked protection using a unique `Device ID`
+- Fast URL pre-check before full page scan
+- Full page moderation using URL + visible text + image URLs
+- Parent allowlist and blocklist enforcement (`allowedSites` / `blockedSites`)
+- Filtering levels (`strict`, `moderate`, `custom`, `off`) from child settings
+- Auto block page replacement when unsafe content is detected
+- Parent lock password for disable/reset actions in popup
+- Firestore activity logging for blocked events and dashboard analytics
+
+## How Blocking Works
+1. Extension reads local config (`deviceId`, `enabled`) from storage.
+2. On page load, URL is checked first via backend endpoint `/api/moderate/url`.
+3. If URL is unsafe, page is blocked immediately.
+4. If URL passes, extension scans page text/images and sends them to `/api/moderate/page`.
+5. Backend combines allowlist/blocklist rules and Gemini moderation result.
+6. If blocked, extension replaces the page with a warning block screen.
+
+## Current Security Notes
+- No API key is stored in the extension. Keys stay on backend.
+- If backend is unreachable/timeouts occur, extension currently fails open (`blocked: false`).
+- For production, set `extension/background.js` `API_BASE` to deployed backend URL (not localhost).
+
 ## Quick Start
 
 ### 1) Backend
@@ -53,7 +76,7 @@ npm start
 4. Select the `extension/` folder
 
 Direct download link:
-- `https://github.com/Sumit-5002/PhishGuard-Sentinel/raw/main/PhishGuard-Sentinel-Extension.zip` (extension only)
+- `https://github.com/BINARY-BEAST25/PhishGuard-Sentinel/raw/main/PhishGuard-Sentinel-Extension.zip` (extension only)
 
 Parent setup flow after login:
 1. Login to dashboard

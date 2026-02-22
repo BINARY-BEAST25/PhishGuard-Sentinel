@@ -2,8 +2,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { activityAPI, childAPI } from '../services/api';
 
-const EXTENSION_ZIP_URL = 'https://github.com/Sumit-5002/PhishGuard-Sentinel/raw/main/PhishGuard-Sentinel-Extension.zip';
-const EXTENSION_FOLDER_URL = 'https://github.com/Sumit-5002/PhishGuard-Sentinel/tree/main/extension';
+const EXTENSION_ZIP_URL = 'https://github.com/BINARY-BEAST25/PhishGuard-Sentinel/raw/main/PhishGuard-Sentinel-Extension.zip';
+const EXTENSION_FOLDER_URL = 'https://github.com/BINARY-BEAST25/PhishGuard-Sentinel/tree/main/extension';
 
 const DashboardPage = () => {
   const [analytics, setAnalytics] = useState(null);
