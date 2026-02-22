@@ -456,6 +456,55 @@ select option {
   color: var(--accent-2);
 }
 
+.install-card {
+  background: linear-gradient(155deg, rgba(17, 31, 49, 0.9), rgba(8, 16, 27, 0.95));
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px;
+  display: grid;
+  gap: 14px;
+}
+
+.install-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.install-head h3 {
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+
+.install-head p {
+  max-width: 640px;
+}
+
+.install-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.install-steps {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--text-1);
+  display: grid;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.install-steps code {
+  background: #0c1825;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 2px 6px;
+  color: var(--text-0);
+}
+
 .dashboard-columns {
   display: grid;
   grid-template-columns: 1.15fr 1fr;
@@ -577,6 +626,14 @@ select option {
 
   .dashboard-columns {
     grid-template-columns: 1fr;
+  }
+
+  .install-actions {
+    width: 100%;
+  }
+
+  .install-actions .btn {
+    flex: 1;
   }
 }
 

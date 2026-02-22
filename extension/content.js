@@ -175,49 +175,73 @@ function showBlockScreen(reason) {
 <title>Blocked by PhishGuard Sentinel</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg-0: #04080f;
+    --line: #22384b;
+    --text-0: #e6f4ff;
+    --text-1: #9cb6cb;
+    --accent: #1ec8a5;
+    --danger: #ef6a63;
+  }
   body {
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #08131f;
-    color: #e8f3ff;
-    font-family: Segoe UI, Arial, sans-serif;
+    background: radial-gradient(circle at 88% -12%, #17463f 0%, transparent 40%),
+      radial-gradient(circle at 10% -20%, #1a344f 0%, transparent 45%), var(--bg-0);
+    color: var(--text-0);
+    font-family: "Manrope", "Segoe UI", sans-serif;
+    padding: 16px;
   }
   .card {
     width: min(520px, 92vw);
-    border: 1px solid #214463;
-    border-radius: 16px;
-    background: #0f2235;
-    padding: 34px 28px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: linear-gradient(160deg, rgba(20, 36, 54, 0.9), rgba(10, 19, 31, 0.95));
+    padding: 32px 26px;
     text-align: center;
   }
-  .icon { font-size: 58px; margin-bottom: 14px; }
+  .icon {
+    width: 62px;
+    height: 62px;
+    border-radius: 16px;
+    margin: 0 auto 14px;
+    display: grid;
+    place-items: center;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: #03233f;
+    background: linear-gradient(140deg, #51edca 0%, #2f9fdd 100%);
+  }
   .tag {
-    font-size: 12px;
-    color: #ff6670;
-    letter-spacing: 0.4px;
+    font-size: 11px;
+    color: var(--danger);
+    letter-spacing: 0.08em;
     margin-bottom: 8px;
     text-transform: uppercase;
+    font-weight: 700;
   }
   h1 { font-size: 26px; margin-bottom: 8px; }
-  .reason { color: #a5bdd3; margin-bottom: 16px; font-size: 15px; }
+  .reason { color: var(--text-1); margin-bottom: 16px; font-size: 15px; }
   .url {
-    border: 1px solid #214463;
-    border-radius: 8px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
     padding: 8px 10px;
     font-size: 12px;
-    color: #7ca0be;
+    color: #8bb7d6;
     word-break: break-all;
     margin-bottom: 16px;
     font-family: Consolas, monospace;
+    background: #0c1825;
   }
-  .msg { color: #a5bdd3; font-size: 14px; line-height: 1.5; }
+  .msg { color: var(--text-1); font-size: 14px; line-height: 1.5; }
   .footer {
     margin-top: 20px;
-    border-top: 1px solid #214463;
+    border-top: 1px solid var(--line);
     padding-top: 12px;
-    color: #2eaadc;
+    color: var(--accent);
     font-size: 12px;
     letter-spacing: 0.25px;
   }
@@ -225,7 +249,7 @@ function showBlockScreen(reason) {
 </head>
 <body>
   <div class="card">
-    <div class="icon">🛡️</div>
+    <div class="icon">PG</div>
     <div class="tag">Blocked</div>
     <h1>Page Blocked</h1>
     <div class="reason">${label}</div>
@@ -234,7 +258,7 @@ function showBlockScreen(reason) {
       PhishGuard Sentinel stopped this page to protect against phishing, spoofed domains,
       and unsafe content.
     </p>
-    <div class="footer">PhishGuard Sentinel • Powered by Gemini</div>
+    <div class="footer">PhishGuard Sentinel | Powered by Gemini</div>
   </div>
 </body>
 </html>`);

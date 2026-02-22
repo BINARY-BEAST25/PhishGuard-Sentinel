@@ -52,6 +52,16 @@ npm start
 3. Click `Load unpacked`
 4. Select the `extension/` folder
 
+Direct download link:
+- `https://github.com/Sumit-5002/PhishGuard-Sentinel/archive/refs/heads/main.zip`
+
+Parent setup flow after login:
+1. Login to dashboard
+2. Create/select child profile and copy Device ID
+3. Download and extract the project ZIP
+4. Load `extension/` in Chrome from `chrome://extensions`
+5. Paste Device ID in extension popup and activate protection
+
 ## Required Backend Env
 See `backend/.env.example`.
 
@@ -61,6 +71,11 @@ Minimum required:
 - `FIREBASE_PROJECT_ID`
 - `FIREBASE_CLIENT_EMAIL`
 - `FIREBASE_PRIVATE_KEY`
+
+Important:
+- The browser extension itself does not need any API key input.
+- The backend must have the keys above.
+- `extension/background.js` must point `API_BASE` to your deployed backend URL.
 
 Optional:
 - `REDIS_URL` (Upstash/Redis Cloud free tier)

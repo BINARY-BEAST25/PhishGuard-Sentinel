@@ -2,6 +2,9 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { activityAPI, childAPI } from '../services/api';
 
+const EXTENSION_ZIP_URL = 'https://github.com/Sumit-5002/PhishGuard-Sentinel/archive/refs/heads/main.zip';
+const EXTENSION_FOLDER_URL = 'https://github.com/Sumit-5002/PhishGuard-Sentinel/tree/main/extension';
+
 const DashboardPage = () => {
   const [analytics, setAnalytics] = useState(null);
   const [children, setChildren] = useState([]);
@@ -57,6 +60,31 @@ const DashboardPage = () => {
           <strong>{blockRate}%</strong>
         </div>
       </div>
+
+      <section className="install-card">
+        <div className="install-head">
+          <div>
+            <h3>Install Browser Extension</h3>
+            <p>After parent login, install the extension on the child's browser and connect using Device ID.</p>
+          </div>
+          <div className="install-actions">
+            <a className="btn btn-primary" href={EXTENSION_ZIP_URL} target="_blank" rel="noreferrer">
+              Download ZIP
+            </a>
+            <a className="btn btn-secondary" href={EXTENSION_FOLDER_URL} target="_blank" rel="noreferrer">
+              View Extension Folder
+            </a>
+          </div>
+        </div>
+        <ol className="install-steps">
+          <li>Download and extract the project ZIP.</li>
+          <li>Open Chrome and go to <code>chrome://extensions</code>.</li>
+          <li>Enable Developer mode, click Load unpacked, and select the <code>extension/</code> folder.</li>
+          <li>
+            Open the extension popup and paste a child Device ID from <Link to="/children">Children</Link>.
+          </li>
+        </ol>
+      </section>
 
       <div className="dashboard-columns">
         <section className="panel-card">

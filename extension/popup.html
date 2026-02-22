@@ -1,128 +1,193 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>PhishGuard Sentinel</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #08131f;
-      --panel: #0f2235;
-      --line: #214463;
-      --text: #e8f3ff;
-      --muted: #a5bdd3;
-      --accent: #2eaadc;
-      --success: #1fc886;
-      --danger: #ff6670;
+      --bg-0: #04080f;
+      --bg-1: #0d1724;
+      --bg-2: #111f31;
+      --line: #22384b;
+      --text-0: #e6f4ff;
+      --text-1: #9cb6cb;
+      --accent: #1ec8a5;
+      --danger: #ef6a63;
+      --ok: #21c983;
+      --radius: 14px;
     }
     body {
       width: 370px;
       min-height: 280px;
-      background: radial-gradient(circle at top right, #12395a 0%, var(--bg) 60%);
-      color: var(--text);
-      font-family: Segoe UI, Arial, sans-serif;
+      color: var(--text-0);
+      font-family: "Manrope", "Segoe UI", sans-serif;
+      background: radial-gradient(circle at 88% -12%, #17463f 0%, transparent 40%),
+        radial-gradient(circle at 10% -20%, #1a344f 0%, transparent 45%), var(--bg-0);
     }
     .header {
-      background: linear-gradient(135deg, #12395a, #0e2a42);
+      padding: 16px;
       border-bottom: 1px solid var(--line);
-      padding: 16px 18px;
+      background: rgba(13, 23, 36, 0.7);
     }
     .brand {
       display: flex;
       align-items: center;
       gap: 10px;
+      margin-bottom: 8px;
     }
-    .brand h1 { font-size: 16px; letter-spacing: 0.2px; }
-    .tagline {
-      margin-top: 8px;
+    .brand-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: linear-gradient(140deg, #51edca 0%, #2f9fdd 100%);
+      color: #03233f;
       font-size: 12px;
-      line-height: 1.5;
-      color: var(--muted);
+      font-weight: 800;
+      display: grid;
+      place-items: center;
+      letter-spacing: 0.08em;
     }
-    .content { padding: 16px 18px 18px 18px; }
-    .features {
+    .brand h1 {
+      font-size: 16px;
+      letter-spacing: 0.02em;
+    }
+    .tagline {
+      color: var(--text-1);
+      line-height: 1.4;
+      font-size: 12px;
+    }
+    .content {
+      padding: 14px 16px 16px;
+      display: grid;
+      gap: 12px;
+    }
+    .features,
+    .configured {
       border: 1px solid var(--line);
       border-radius: 10px;
-      background: rgba(15, 34, 53, 0.7);
+      background: rgba(17, 31, 49, 0.75);
       padding: 10px;
-      margin-bottom: 14px;
+      display: grid;
+      gap: 8px;
     }
     .feature {
-      display: flex;
-      align-items: center;
-      gap: 8px;
       font-size: 12px;
-      color: var(--muted);
-      margin: 6px 0;
+      color: var(--text-1);
+      line-height: 1.45;
+    }
+    .configured {
+      font-size: 12px;
+      color: var(--text-1);
+    }
+    .configured strong {
+      color: var(--accent);
     }
     .status-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 12px;
+      margin-bottom: 6px;
     }
-    .status-label { font-size: 13px; color: var(--muted); }
+    .status-label {
+      font-size: 13px;
+      color: var(--text-1);
+      font-weight: 600;
+    }
     .toggle { position: relative; display: inline-block; width: 44px; height: 24px; }
     .toggle input { opacity: 0; width: 0; height: 0; }
     .slider {
-      position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
-      background: #355676; border-radius: 24px; transition: 0.25s;
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #334d64;
+      border-radius: 24px;
+      transition: 0.25s;
     }
     .slider:before {
-      position: absolute; content: ''; height: 18px; width: 18px; left: 3px; bottom: 3px;
-      background: #fff; border-radius: 50%; transition: 0.25s;
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background: #fff;
+      border-radius: 50%;
+      transition: 0.25s;
     }
     input:checked + .slider { background: var(--accent); }
     input:checked + .slider:before { transform: translateX(20px); }
     .field { margin-bottom: 10px; }
-    .field label { display: block; margin-bottom: 4px; font-size: 12px; color: var(--muted); }
+    .field label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 12px;
+      color: var(--text-1);
+      font-weight: 600;
+    }
     .field input {
       width: 100%;
       border: 1px solid var(--line);
-      border-radius: 8px;
-      background: rgba(0, 0, 0, 0.2);
-      color: var(--text);
-      padding: 9px 10px;
+      border-radius: 10px;
+      background: #0c1825;
+      color: var(--text-0);
+      padding: 10px 11px;
       font-size: 13px;
       outline: none;
     }
-    .field input:focus { border-color: var(--accent); }
+    .field input:focus {
+      border-color: rgba(30, 200, 165, 0.75);
+      box-shadow: 0 0 0 3px rgba(30, 200, 165, 0.14);
+    }
     .btn {
       width: 100%;
-      border: none;
-      border-radius: 9px;
-      padding: 10px;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      padding: 10px 12px;
       font-size: 13px;
       font-weight: 700;
       cursor: pointer;
-      letter-spacing: 0.3px;
-      margin-top: 4px;
+      letter-spacing: 0.02em;
     }
-    .btn-primary { background: linear-gradient(90deg, #2eaadc, #228ab8); color: #04111c; }
-    .btn-secondary { background: #253f58; color: var(--muted); }
-    .msg { font-size: 12px; text-align: center; margin-top: 8px; min-height: 16px; }
-    .msg.success { color: var(--success); }
-    .msg.error { color: var(--danger); }
-    .configured {
-      border: 1px solid var(--line);
-      border-radius: 9px;
-      padding: 10px;
-      margin-bottom: 12px;
+    .btn-primary {
+      color: #032219;
+      background: linear-gradient(135deg, var(--accent) 0%, #62f0cd 100%);
+    }
+    .btn-secondary {
+      color: var(--text-0);
+      border-color: var(--line);
+      background: #122233;
+    }
+    .msg {
       font-size: 12px;
-      color: var(--muted);
+      text-align: center;
+      margin-top: 8px;
+      min-height: 16px;
+      color: var(--text-1);
     }
-    .configured strong { color: var(--accent); }
+    .msg.success { color: var(--ok); }
+    .msg.error { color: var(--danger); }
+    .hint {
+      margin-top: 8px;
+      color: var(--text-1);
+      font-size: 11px;
+      line-height: 1.4;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
   <div class="header">
     <div class="brand">
-      <span style="font-size:22px">🛡️</span>
+      <span class="brand-mark">PG</span>
       <h1>PhishGuard Sentinel</h1>
     </div>
     <p class="tagline">
-      Bring our defense grid to your browser. PhishGuard Sentinel scans every URL you visit,
-      detecting typosquats, homograph attacks, and insecure credential leaks before they harm you.
+      Secure browsing is active once you set the Device ID from the parent dashboard.
     </p>
   </div>
 
@@ -132,7 +197,7 @@
         Device ID: <strong id="device-id-display"></strong>
       </div>
       <div class="status-row">
-        <span class="status-label">Sentinel Protection</span>
+        <span class="status-label">Protection</span>
         <label class="toggle">
           <input type="checkbox" id="toggle-enabled">
           <span class="slider"></span>
@@ -144,20 +209,20 @@
 
     <div id="setup-view">
       <div class="features">
-        <div class="feature">🛡️ Live Filtering - Block malicious scripts on the fly.</div>
-        <div class="feature">🔍 URL Analysis - Deep inspect suspicious domains.</div>
-        <div class="feature">⚠️ Alert System - Instant warnings on threat detection.</div>
-        <div class="feature">📊 Threat Logs - Keep track of scanned sites.</div>
+        <div class="feature">Live URL and page moderation</div>
+        <div class="feature">Automatic block screen for unsafe pages</div>
+        <div class="feature">Child profile controls from parent dashboard</div>
       </div>
       <div class="field">
-        <label>Device ID</label>
-        <input type="text" id="device-id-input" placeholder="Paste device ID from dashboard">
+        <label for="device-id-input">Device ID</label>
+        <input type="text" id="device-id-input" placeholder="Paste Device ID from dashboard">
       </div>
       <div class="field">
-        <label>Parent Password (optional)</label>
-        <input type="password" id="lock-password" placeholder="Set lock for disable/reset">
+        <label for="lock-password">Parent Password (optional)</label>
+        <input type="password" id="lock-password" placeholder="Lock disable/reset actions">
       </div>
-      <button class="btn btn-primary" id="btn-save">INSTALL SENTINEL -></button>
+      <button class="btn btn-primary" id="btn-save">Activate Protection</button>
+      <p class="hint">No API key is entered in the extension. It only uses your backend endpoint.</p>
       <div id="setup-msg" class="msg"></div>
     </div>
   </div>
