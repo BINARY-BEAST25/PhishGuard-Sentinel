@@ -629,6 +629,36 @@ select option {
   color: var(--text-2);
 }
 
+.device-id-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.device-id-text {
+  font-size: 12px;
+  color: var(--text-2);
+  font-family: Consolas, monospace;
+  word-break: break-all;
+}
+
+.device-id-copy {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #122233;
+  color: var(--text-1);
+  padding: 3px 9px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.device-id-copy:hover {
+  color: var(--text-0);
+  border-color: #2d4b63;
+}
+
 .child-meta,
 .activity-meta {
   display: flex;

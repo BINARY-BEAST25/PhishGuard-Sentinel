@@ -15,12 +15,27 @@ const ChildrenPage = () => {
   const load = () => childAPI.list().then((r) => setChildren(r.data.children));
   useEffect(() => { load(); }, []);
 
+  const copyDeviceId = async (deviceId, showToast = true) => {
+    if (!deviceId) return;
+    try {
+      await navigator.clipboard.writeText(deviceId);
+      if (showToast) toast.success('Device ID copied');
+    } catch {
+      toast.error('Could not copy Device ID');
+    }
+  };
+
   const handleAdd = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
       const res = await childAPI.add(form);
-      toast.success(`Profile created! Device ID: ${res.data.deviceId.slice(0, 8)}...`);
+      if (res.data?.deviceId) {
+        await copyDeviceId(res.data.deviceId, false);
+        toast.success('Profile created. Device ID copied.');
+      } else {
+        toast.success('Profile created.');
+      }
       setShowAdd(false);
       setForm({ name: '', filteringLevel: 'moderate' });
       load();
@@ -104,7 +119,29 @@ const ChildrenPage = () => {
                 <div style={{ width: 48, height: 48, borderRadius: '50%', background: '#312e81', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>👤</div>
                 <div>
                   <div style={{ fontWeight: 600, fontSize: 16 }}>{child.name}</div>
-                  <div style={{ fontSize: 12, color: '#64748b', marginTop: 2 }}>ID: {child.deviceId?.slice(0, 12)}...</div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 2, flexWrap: 'wrap' }}>
+                    <span style={{ fontSize: 12, color: '#94a3b8', fontFamily: 'Consolas, monospace', wordBreak: 'break-all' }}>
+                      {child.deviceId || 'No Device ID'}
+                    </span>
+                    {child.deviceId ? (
+                      <button
+                        type="button"
+                        onClick={() => copyDeviceId(child.deviceId)}
+                        style={{
+                          padding: '3px 9px',
+                          background: '#122233',
+                          border: '1px solid #334155',
+                          borderRadius: 999,
+                          color: '#9cb6cb',
+                          fontSize: 11,
+                          fontWeight: 700,
+                          cursor: 'pointer'
+                        }}
+                      >
+                        Copy
+                      </button>
+                    ) : null}
+                  </div>
                   <div style={{ fontSize: 12, color: '#94a3b8', marginTop: 2 }}>
                     Level: <span style={{ color: '#6366f1', textTransform: 'capitalize' }}>{child.filteringLevel}</span>
                     {' · '}Blocked: {child.blockedSites?.length || 0} sites

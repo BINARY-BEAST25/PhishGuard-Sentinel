@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import { activityAPI, childAPI } from '../services/api';
 
 const EXTENSION_ZIP_URL = 'https://github.com/BINARY-BEAST25/PhishGuard-Sentinel/raw/main/PhishGuard-Sentinel-Extension.zip';
@@ -25,6 +26,16 @@ const DashboardPage = () => {
     if (!analytics?.total) return 0;
     return Math.round((analytics.blocked / analytics.total) * 100);
   }, [analytics]);
+
+  const copyDeviceId = async (deviceId) => {
+    if (!deviceId) return;
+    try {
+      await navigator.clipboard.writeText(deviceId);
+      toast.success('Device ID copied');
+    } catch {
+      toast.error('Could not copy Device ID');
+    }
+  };
 
   if (loading) {
     return <div className="page-loading">Loading dashboard...</div>;
@@ -103,7 +114,18 @@ const DashboardPage = () => {
                 <article key={child._id} className="child-item">
                   <div className="child-main">
                     <strong>{child.name}</strong>
-                    <span>ID: {child.deviceId?.slice(0, 10)}...</span>
+                    <div className="device-id-row">
+                      <span className="device-id-text">{child.deviceId || 'No Device ID'}</span>
+                      {child.deviceId ? (
+                        <button
+                          type="button"
+                          className="device-id-copy"
+                          onClick={() => copyDeviceId(child.deviceId)}
+                        >
+                          Copy
+                        </button>
+                      ) : null}
+                    </div>
                   </div>
                   <div className="child-meta">
                     <span className={`status-pill ${child.isActive ? 'ok' : 'off'}`}>
